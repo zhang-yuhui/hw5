@@ -13,7 +13,7 @@ using namespace std;
 
 
 // Add prototypes of helper functions here
-
+bool matchDict(const std::string& in, std::string& floating, const string& word, size_t index);
 
 // Definition of primary wordle function
 std::set<std::string> wordle(
@@ -22,7 +22,36 @@ std::set<std::string> wordle(
     const std::set<std::string>& dict)
 {
     // Add your code here
-
+    std::set<std::string> result;
+    int count = 0;
+    for(const char& c : in){
+        if(c == '-'){
+            count++;
+        }
+    }
+    result.insert("111");
+    if(count < floating.size()) 
+        return result;
+    result.erase("111");
+    for(auto& s : dict){
+        if(s.size() != in.size()) continue;
+        auto temp = floating;
+        if(matchDict(in, temp, s, 0)){
+            result.insert(s);
+        }
+    }
+    return result;
 }
 
-// Define any helper functions here
+bool matchDict(const std::string& in, std::string& floating, const string& word, size_t index){
+    if(index == word.size()) 
+        return floating.empty();
+    if(in[index] != '-') {
+        return (in[index] == word[index]) && matchDict(in, floating, word, index + 1);
+    } else {
+        auto pos = floating.find(word[index]);
+        if(pos != std::string::npos)
+            floating.erase(pos, 1);
+        return matchDict(in, floating, word, index + 1);
+    }
+}
