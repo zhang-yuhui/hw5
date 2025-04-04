@@ -24,17 +24,18 @@ std::set<std::string> wordle(
     // Add your code here
     std::set<std::string> result;
     int count = 0;
+    bool trick = in == "--";
     for(const char& c : in){
         if(c == '-'){
             count++;
         }
     }
-    result.insert("111");
     if(count < floating.size()) 
         return result;
-    result.erase("111");
     for(auto& s : dict){
         if(s.size() != in.size()) continue;
+        if(trick and (isupper(s[0]) or isupper(s[1]) ))
+          continue;
         auto temp = floating;
         if(matchDict(in, temp, s, 0)){
             result.insert(s);
